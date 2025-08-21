@@ -10,6 +10,6 @@ from  ..auth import create_access_token
 
 router=APIRouter(prefix="/api/v1/auth",tags=["auth"],route_class=GlobalApiRouteHandler)
 
-@router.post("/token",summary="generate access token",response_model=ApiGlobalResponse[TokenResponseModel])
+@router.post("/token",summary="generate access token")
 def auth_token(credentials:Annotated[AuthRequestModel,Body()]):
     return create_access_token({"username":"afeliz","email":"afeliz@com.do","roles":["pets.read","pets.add","pets.update"]})

@@ -21,14 +21,13 @@ class AnimalService:
                 if not animal:
                   raise AppNotFoundException(message=f"no existe un animal registrado con el id '{id}'",messageCode="10007")
                 
-                return None if animal==None else AnimalModel(**animal.__dict__)
+                return AnimalModel(**animal.__dict__)
 
         async def update(self,id:int,data:AnimalUpdate)->Union[AnimalModel,None]:
                 ## TODO VALIDACIONES, SI EXISTE, SI SE PUEDE MODIFICAR ETC
 
                 animal=Animal(id=id,name=data.name,category=data.category)
                 await self.__db.animals.update_async(animal)
-
                 await self.__db.commit_async()
                 return AnimalModel(**animal.__dict__)
         

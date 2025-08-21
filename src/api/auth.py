@@ -32,7 +32,7 @@ def create_access_token(payload:dict)->TokenResponseModel:
     expire=datetime.datetime.utcnow()+datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp":expire})
     encoded_jwt = jwt.encode(to_encode,SECRET_KEY, algorithm=ALGORITHM)
-    return TokenResponseModel(accessToken=encoded_jwt,expireAt=expire)
+    return TokenResponseModel(accessToken=encoded_jwt,expireAt=expire.strftime("%y-%m-%d %H:%M:%S"))
 
 def get_current_user(claims:Annotated[dict,Depends(verify_authentication)])->dict:
     return {"username":claims.get("username"),"email":claims.get("email")}

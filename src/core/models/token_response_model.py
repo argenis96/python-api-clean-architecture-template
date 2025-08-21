@@ -1,6 +1,7 @@
 import datetime
+from typing import Union
 from pydantic import BaseModel
 
 class TokenResponseModel(BaseModel):
-    accessToken:str
-    expireAt:datetime.datetime
+    accessToken:Union[str,None]
+    expireAt:Union[str,None]
