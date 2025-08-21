@@ -4,6 +4,7 @@ from fastapi.security import HTTPAuthorizationCredentials
 from fastapi.security.http import  HTTPBearer
 import jwt,datetime
 from src.core.exceptions.app_exceptions import AppAutenticationException,AppUnauthorizedException
+from src.core.models.token_response_model import TokenResponseModel
 
 auth_schema=HTTPBearer(auto_error=False)
 
@@ -26,12 +27,12 @@ def decode_token(token:str)->dict:
     except Exception as e:
         raise  AppAutenticationException("invalid token",messageCode="10005")
 
-def create_access_token(payload:dict)->str:
+def create_access_token(payload:dict)->TokenResponseModel:
     to_encode = payload.copy()
     expire=datetime.datetime.utcnow()+datetime.timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp":expire})
     encoded_jwt = jwt.encode(to_encode,SECRET_KEY, algorithm=ALGORITHM)
-    return encoded_jwt
+    return TokenResponseModel(accessToken=encoded_jwt,expireAt=expire)
 
 def get_current_user(claims:Annotated[dict,Depends(verify_authentication)])->dict:
     return {"username":claims.get("username"),"email":claims.get("email")}

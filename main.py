@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from src.api.middleware.global_api_route_handler import GlobalApiRouteHandler
 from src.api.middleware.global_exception_handler import app_exception_handler, exception_handler, valitations_exception_handler
 from src.core.exceptions.app_exception_base import AppExceptionBase
 from src.shared.config import enviroment
@@ -9,8 +10,10 @@ app = FastAPI(
     docs_url='/',
     title=f"{config.APP_NAME}[{config.API_VERSION}]",
     description =f"{config.API_DESCRIPTION}",
-    root_path=f"/{config.PATH_BASE}"
+    root_path=f"/{config.PATH_BASE}",
 )
+
+app.router.route_class = GlobalApiRouteHandler
 app.add_exception_handler(AppExceptionBase,app_exception_handler)
 app.add_exception_handler(RequestValidationError,valitations_exception_handler)
 app.add_exception_handler(Exception,exception_handler)

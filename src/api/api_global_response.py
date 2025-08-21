@@ -13,6 +13,4 @@ class Notification(BaseModel):
 
 class ApiGlobalResponse(BaseModel,Generic[T]):
    data:Union[T,None]
-   notifications:Union[list[Notification],None]
-
-
+   notifications:Union[list[Notification],None]=None
