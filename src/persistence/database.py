@@ -1,6 +1,4 @@
-from functools import lru_cache
 import psycopg
-
 from src.shared.config import enviroment
 
 config=enviroment.get_environment_settings()

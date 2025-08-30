@@ -1,15 +1,15 @@
 
 from typing import Union
-from fastapi import Depends
 from src.core.models.animal_create import AnimalCreate
 from src.core.models.animal_model import AnimalModel
 from src.core.models.animal_update import AnimalUpdate
+from src.domain.contracts.istorage import IStorage
+from src.domain.contracts.ianimal_service import IAnimalService
 from src.domain.entities.animal import Animal
-from src.core.exceptions.app_exceptions import AppOperationException,AppNotFoundException
-from src.persistence.storage import Storage
+from src.core.exceptions.app_exceptions import AppNotFoundException
 
-class AnimalService:
-        def __init__(self,storage:Storage=Depends(Storage)):
+class _AnimalService(IAnimalService):
+        def __init__(self,storage:IStorage):
                 self.__db=storage
         
         async def get_all_animals(self)->Union[list[AnimalModel],None]:

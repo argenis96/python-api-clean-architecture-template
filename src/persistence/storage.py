@@ -1,23 +1,24 @@
+from typing import Annotated
 from fastapi import Depends
 from psycopg import AsyncConnection
+from src.domain.contracts.IAnimal_Repository import IAnimalRepository
+from src.domain.contracts.istorage import IStorage
 from src.persistence.database import (build_conection)
 from src.persistence.repositories.animal_repository import AnimalRepository
 
 
-class Storage:
+class __Storage(IStorage):
     
     #region repositories access 
     @property
-    def animals(self):
+    def animals(self)->IAnimalRepository:
         if self.__animalsRepository==None:
             self.__animalsRepository=AnimalRepository(self.__dbConn)
         return self.__animalsRepository
 
-
     #endregion
-
         
-    def __init__(self,dbconnection:AsyncConnection=Depends(build_conection)):
+    def __init__(self,dbconnection:AsyncConnection):
         self.__dbConn=dbconnection
 
         #region repositoies instances

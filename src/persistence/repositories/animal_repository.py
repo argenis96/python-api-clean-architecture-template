@@ -1,10 +1,11 @@
 
 from psycopg import AsyncConnection
 import pydapper
+from src.domain.contracts.IAnimal_Repository import IAnimalRepository
 from src.domain.entities.animal import Animal
 from src.persistence.repositories.raw_queries.animals_query import AnimalQuery
 
-class AnimalRepository:
+class AnimalRepository(IAnimalRepository):
     def __init__(self,connection:AsyncConnection):
         self.__dbconnection=connection
 
