@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+from fastapi_mcp import AuthConfig, FastApiMCP
 from fastapi.exceptions import RequestValidationError
+from src.api.auth import verify_authentication
 from src.api.middleware.global_api_route_handler import GlobalApiRouteHandler
 from src.api.middleware.global_exception_handler import app_exception_handler, exception_handler, valitations_exception_handler
 from src.core.exceptions.app_exception_base import AppExceptionBase
@@ -34,3 +36,15 @@ app.add_exception_handler(Exception,exception_handler)
 
 app.include_router(auth.router)
 app.include_router(animals.router)
+
+#region MCP FOR LLM COMMUNICATION
+mcp = FastApiMCP(fastapi=app,
+                  name=app.title,
+                  description=app.description,
+                  describe_all_responses=True,
+                  describe_full_response_schema=True,
+                  auth_config=AuthConfig(verify_authentication=Depends(verify_authentication))                  
+                )
+        
+mcp.mount_http()
+#endregion
