@@ -42,9 +42,9 @@ mcp = FastApiMCP(fastapi=app,
                   name=app.title,
                   description=app.description,
                   describe_all_responses=True,
-                  describe_full_response_schema=True,
+                  describe_full_response_schema=True,                  
                   auth_config=AuthConfig(verify_authentication=Depends(verify_authentication))                  
                 )
         
-mcp.mount_http()
+mcp.mount_http(mount_path=f"{app.root_path}/mcp")
 #endregion
