@@ -12,10 +12,10 @@ from scalar_fastapi import Layout, Theme, get_scalar_api_reference
 config=enviroment.get_environment_settings()
 app = FastAPI(
     docs_url='/docs',
-    title=f"{config.APP_NAME}[{config.API_VERSION}]",
-    description =f"{config.API_DESCRIPTION}",
-    root_path=f"/{config.PATH_BASE}",
-    version=f"{config.API_VERSION}"
+    title=f"{config.app_name}[{config.app_version}]",
+    description =f"{config.app_description}",
+    root_path=f"/{config.app_path_base}",
+    version=f"{config.app_version}"
     )
 
 @app.get("/", include_in_schema=False)
@@ -43,7 +43,7 @@ mcp = FastApiMCP(fastapi=app,
                   description=app.description,
                   describe_all_responses=True,
                   describe_full_response_schema=True,                  
-                  auth_config=AuthConfig(verify_authentication=Depends(verify_authentication))                  
+                  auth_config=AuthConfig(dependencies=[Depends(verify_authentication)])                  
                 )
         
 mcp.mount_http(mount_path=f"{app.root_path}/mcp")

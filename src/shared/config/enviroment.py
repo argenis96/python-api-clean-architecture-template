@@ -1,21 +1,35 @@
 
 from functools import lru_cache
-from pydantic_settings import BaseSettings, SettingsConfigDict
-import os
+from typing import Optional
+from pydantic_settings import BaseSettings, PydanticBaseSettingsSource,JsonConfigSettingsSource
 
-@lru_cache
-def get_env_filename():
-    runtime_env = os.getenv("ENVIROMENT")
-    return f".env.{runtime_env}" if runtime_env else ".env"
 
-class EnviromentSettings(BaseSettings):
-    APP_NAME:str|None=""
-    DATA_BASE_CONNECTION:str|None=""
-    API_DESCRIPTION:str|None=""
-    API_VERSION:str|None=""
-    PATH_BASE:str|None=""
 
-    model_config=SettingsConfigDict(env_file=get_env_filename()) 
+class DataBaseSettings(BaseSettings):
+    host:str
+    port:int
+    user:str
+    password:str
+    database_name:str
+class EnviromentSettings(BaseSettings):  
+    app_name:str
+    app_description:str
+    app_version:str
+    app_path_base:str
+    database:Optional[DataBaseSettings]
+
+
+
+    @classmethod
+    def settings_customise_sources(
+        cls,
+        settings_cls: type[BaseSettings],
+        init_settings: PydanticBaseSettingsSource,
+        env_settings: PydanticBaseSettingsSource,
+        dotenv_settings: PydanticBaseSettingsSource,
+        file_secret_settings: PydanticBaseSettingsSource,
+    ) -> tuple[PydanticBaseSettingsSource, ...]:
+        return (env_settings,JsonConfigSettingsSource(settings_cls,json_file="settings.json"))
 
 @lru_cache
 def get_environment_settings()->EnviromentSettings:

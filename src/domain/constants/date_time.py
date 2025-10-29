@@ -1,0 +1,8 @@
+
+
+DATE_TIME_ISO_FORMAT = "%Y-%m-%d %H:%M:%S"
+DATE_TIME_ISO_FORMAT_NO_SECONDS = "%Y-%m-%d %H:%M"
+DATE_ISO_FORMAT = "%Y-%m-%d"
+TIME_ISO_FORMAT = "%H:%M:%S"
+TIME_ISO_FORMAT_NO_SECONDS = "%H:%M"
+

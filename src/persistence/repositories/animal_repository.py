@@ -1,11 +1,13 @@
 
+from typing import Optional
+from typing import Optional
 from psycopg import AsyncConnection
 import pydapper
-from src.domain.contracts.IAnimal_Repository import IAnimalRepository
+from src.domain.contracts.ianimal_Repository import IAnimalRepository
 from src.domain.entities.animal import Animal
-from src.persistence.repositories.raw_queries.animals_query import AnimalQuery
+from src.persistence.raw_queries.animals_query import AnimalQuery
 
-class AnimalRepository(IAnimalRepository):
+class _AnimalRepository(IAnimalRepository):
     def __init__(self,connection:AsyncConnection):
         self.__dbconnection=connection
 
@@ -13,7 +15,7 @@ class AnimalRepository(IAnimalRepository):
         commands=pydapper.using_async(self.__dbconnection)
         return await commands.query_async(sql=AnimalQuery.GET_ALL_ANIMALS,model=Animal,)
         
-    async def get_by_id_async(self,id:int)-> Animal|None:          
+    async def get_by_id_async(self,id:int)-> Optional[Animal]:          
         commands=pydapper.using_async(self.__dbconnection)
         return await commands.query_first_or_default_async(sql=AnimalQuery.GET_ANIMAL_BY_ID,default=None,model=Animal,param={"AnimalId":id})
             

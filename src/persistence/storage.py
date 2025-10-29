@@ -1,10 +1,7 @@
-from typing import Annotated
-from fastapi import Depends
 from psycopg import AsyncConnection
-from src.domain.contracts.IAnimal_Repository import IAnimalRepository
+from src.domain.contracts.ianimal_Repository import IAnimalRepository
 from src.domain.contracts.istorage import IStorage
-from src.persistence.database import (build_conection)
-from src.persistence.repositories.animal_repository import AnimalRepository
+from src.persistence.repositories.animal_repository import _AnimalRepository
 
 
 class __Storage(IStorage):
@@ -13,7 +10,7 @@ class __Storage(IStorage):
     @property
     def animals(self)->IAnimalRepository:
         if self.__animalsRepository==None:
-            self.__animalsRepository=AnimalRepository(self.__dbConn)
+            self.__animalsRepository=_AnimalRepository(self.__dbConn)
         return self.__animalsRepository
 
     #endregion
@@ -22,7 +19,7 @@ class __Storage(IStorage):
         self.__dbConn=dbconnection
 
         #region repositoies instances
-        self.__animalsRepository:AnimalRepository=None
+        self.__animalsRepository:_AnimalRepository=None
         
         #endregion
 
@@ -41,6 +38,7 @@ class __Storage(IStorage):
                 print('connection closed!')
                 self.__dbConn.close()
             self.__dbConn=None
+            
         #clean repositories instances
         self.__animalsRepository=None
 

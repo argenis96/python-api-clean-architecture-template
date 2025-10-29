@@ -1,0 +1,13 @@
+{
+    "app_name": "FastAPI Application",
+    "app_description": "API built with FastAPI",
+    "app_version": "1.0.0",
+    "app_path_base": "pets-store",
+    "database": {
+        "host": "your_host",
+        "port": 54000,
+        "user": "your_username",
+        "password": "your_password",
+        "database_name": "your database_name"
+    }
+}

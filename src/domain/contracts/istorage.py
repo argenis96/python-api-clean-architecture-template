@@ -1,6 +1,6 @@
 from abc import ABC,abstractmethod
 
-from src.domain.contracts.IAnimal_Repository import IAnimalRepository
+from src.domain.contracts.ianimal_Repository import IAnimalRepository
 
 class IStorage(ABC):
         

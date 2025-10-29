@@ -8,7 +8,7 @@ from src.domain.contracts.ianimal_service import IAnimalService
 from src.domain.entities.animal import Animal
 from src.core.exceptions.app_exceptions import AppNotFoundException
 
-class _AnimalService(IAnimalService):
+class __AnimalService(IAnimalService):
         def __init__(self,storage:IStorage):
                 self.__db=storage
         
